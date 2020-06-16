@@ -1,6 +1,7 @@
-import pandas as pd
-from typing import List, Dict
 from operator import itemgetter
+from typing import Dict, List
+
+import pandas as pd
 
 def aggregate(nums: pd.Series)-> Dict:
     assert nums.size > 0
