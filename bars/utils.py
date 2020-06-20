@@ -1,21 +1,21 @@
 from operator import itemgetter
 from typing import Dict, List
 
-import pandas as pd
+import numpy as np
 
-def aggregate(nums: pd.Series)-> Dict:
+def aggregate(nums: np.ndarray)-> Dict:
     assert nums.size > 0
     return {
-        'open': nums.iloc[0],
-        'high': nums.max(),
-        'low': nums.min(),
-        'close': nums.iloc[-1],
-        'mean': nums.mean(),
-        'median': nums.median(),
+        'open': nums[0],
+        'high': np.max(nums),
+        'low': np.min(nums),
+        'close': nums[-1],
+        'mean': np.mean(nums),
+        'median': np.median(nums),
     }
 
-def aggregate_trade(trades: pd.DataFrame)-> Dict:
-    price_ohlcv = aggregate(trades['price']);
+def aggregate_trade(trades)-> Dict:  # trades: pd.DataFrame
+    price_ohlcv = aggregate(trades['price'].values);
     
     trades_sell = trades[trades['side'] == True]
     trades_buy = trades[trades['side'] == False]
@@ -43,7 +43,7 @@ def aggregate_trade(trades: pd.DataFrame)-> Dict:
     })
     return price_ohlcv
 
-def convert_to_bar(bar_type:str, bar_size: int, trades: pd.DataFrame)->Dict:
+def convert_to_bar(bar_type:str, bar_size: int, trades)->Dict:  # trades: pd.DataFrame
     assert trades.shape[0] > 0
 
     trades.sort_values('trade_id', inplace=True)
