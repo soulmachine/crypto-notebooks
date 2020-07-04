@@ -9,7 +9,7 @@ def read_bars(csv_file: str)->pd.DataFrame:
               'count': 'int32', 'count_sell': 'int32', 'count_buy': 'int32'}
     bars_df = pd.read_csv(csv_file, engine='c', dtype=dtypes)
     bars_df['vwap'] = bars_df['volume_quote'] / bars_df['volume']
-    bars_df['timestamp'] = pd.to_datetime(bars_df['timestamp'], unit='ms')
-    bars_df['timestamp_end'] = pd.to_datetime(bars_df['timestamp_end'], unit='ms')
+    bars_df['timestamp'] = pd.to_datetime(bars_df['timestamp'], unit='ms', utc=True)
+    bars_df['timestamp_end'] = pd.to_datetime(bars_df['timestamp_end'], unit='ms', utc=True)
     bars_df.set_index('timestamp', drop=False, inplace=True, verify_integrity='TimeBar' in csv_file)
     return bars_df
